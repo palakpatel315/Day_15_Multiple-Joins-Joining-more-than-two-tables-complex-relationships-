@@ -1,0 +1,2 @@
+# Day_15_Multiple-Joins-Joining-more-than-two-tables-complex-relationships-
+SQL project focused on combining data from three or more tables using multiple joins. Includes practice queries joining patients, staff, and schedules, as well as comprehensive service analysis reports. The daily challenge demonstrates building a week‑specific service report with patient admissions, refusals and satisfaction averages.
