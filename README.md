@@ -40,20 +40,22 @@ Order the results by **patients admitted (descending)**.
 ### ✅ **SQL Query Used**
 
 ```sql
-SELECT sw.service,
-       sw.week,
-       SUM(sw.patients_admitted) AS Total_Patients_Admitted,
-       SUM(sw.patients_refused) AS Total_Patients_Refused,
-       ROUND(AVG(sw.patient_satisfaction),2) AS Avg_Patient_Satisfaction,
-       COUNT(DISTINCT ss.staff_id) AS Total_Staff_Assigned,
-       SUM(CASE WHEN ss.present = 1 THEN 1 ELSE 0 END) AS Staff_Present
+SELECT 
+    sw.service,
+    MAX(sw.patients_admitted) AS Total_Patients_Admitted,
+    MAX(sw.patients_refused) AS Total_Patients_Refused,
+    ROUND(MAX(sw.patient_satisfaction), 2) AS Avg_Satisfaction,
+    COUNT(DISTINCT s.staff_id) AS Total_Staff_Assigned,
+    SUM(CASE WHEN ss.present = 1 THEN 1 ELSE 0 END) AS Staff_Present_Week_20
 FROM services_weekly sw
+LEFT JOIN staff s 
+    ON sw.service = s.service
 LEFT JOIN staff_schedule ss
-ON sw.service = ss.service
-AND sw.week = ss.week
+    ON s.staff_id = ss.staff_id 
+    AND sw.week = ss.week
 WHERE sw.week = 20
-GROUP BY  sw.service, sw.week
-ORDER BY Total_Patients_Admitted DESC ;
+GROUP BY sw.service
+ORDER BY Total_Patients_Admitted DESC;
 ```
 
 ## 📸 **SQL Queries**
